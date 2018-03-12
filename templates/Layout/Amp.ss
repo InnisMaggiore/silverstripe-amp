@@ -1,4 +1,9 @@
 <article>
-	<h1>$Title</h1>
-	$Content
+    <amp-img src="$AmpImage.URL"
+             width="$AmpImage.getWidth()"
+             height="$AmpImage.getHeight()"
+             layout="responsive"
+             alt="$AmpImage.Title"></amp-img>
+
+    $AmpContent
 </article>

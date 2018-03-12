@@ -1,5 +1,5 @@
 <!doctype html>
-<html amp lang="$ContentLocale">
+<html ⚡ lang="$ContentLocale">
     <head>
         <meta charset="utf-8">
         <title>$Title</title>
