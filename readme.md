@@ -2,12 +2,12 @@
 Converts pages to Google Amp HTML. For more information about AMP HTML see [Google AMP Project Homepage](https://www.ampproject.org).
 
 ## Requirements
-* SilverStripe 3.2.x
+* SilverStripe 3.6.x
 
 ## Installation
 **Composer (recommended):**
 
-`composer require thezenmonkey/silverstripe-amp`
+`composer require innis-maggiore/silverstripe-amp`
 
 If you prefer you may also install manually:
 
