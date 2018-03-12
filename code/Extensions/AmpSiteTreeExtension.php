@@ -9,6 +9,24 @@
 class AmpSiteTreeExtension extends SiteTreeExtension
 {
 
+    private static $db = array(
+        'AmpContent'    =>'HTMLText'
+    );
+
+    private static $has_one = array(
+	    'AmpImage'  => 'Image'
+    );
+
+
+    public function updateCMSFields(FieldList $fields) {
+        $children = array(
+            new HtmlEditorField("AmpContent", "AMP Content"),
+            new UploadField("AmpImage", "AMP Image")
+        );
+
+        $fields->addFieldToTab("Root.Main", new ToggleCompositeField("AMPContentSection", "AMP Content Section", $children));
+    }
+
     public function MetaTags(&$tags)
     {
         if ($this->owner->AmpContent != "" && $this->owner->AmpImageID != "") {
