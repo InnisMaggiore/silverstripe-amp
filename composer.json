@@ -7,13 +7,14 @@
     "license": "BSD-3-Clause",
     "authors": [
         {"name": "Richard Rudy","email": "iwant@designplusawesome.com"},
-        {"name": "Sara DeJaneiro","email": "sara.dejaneiro@innismaggiore.com"}
+        {"name": "Sara DeJaneiro","email": "sara.dejaneiro@innismaggiore.com"},
+        {"name": "Dave Collins","email": "dave.collins@innismaggiore.com"},
     ],
     "support": {
         "issues": "https://github.com/InnisMaggiore/silverstripe-amp"
     },
     "require": {
-        "silverstripe/cms": "3.6.*",
-        "silverstripe/framework": "3.6.*"
+        "silverstripe/cms": "3.7.*",
+        "silverstripe/framework": "3.7.*"
     }
 }
