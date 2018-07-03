@@ -5,3 +5,7 @@ Controller:
 SiteTree:
   extensions:
     - 'AmpSiteTreeExtension'
+
+SiteConfig:
+  extensions:
+    - 'AmpGlobalConfig'
