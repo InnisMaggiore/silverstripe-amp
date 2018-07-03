@@ -1,9 +1,16 @@
 <article>
-    <amp-img src="$AmpImage.URL"
-             width="$AmpImage.getWidth()"
-             height="$AmpImage.getHeight()"
-             layout="responsive"
-             alt="$AmpImage.Title"></amp-img>
+    <% if $AmpImageForTemplate %>
+        <amp-img src="$AmpImageForTemplate.URL"
+                 width="$AmpImageForTemplate.getWidth()"
+                 height="$AmpImageForTemplate.getHeight()"
+                 layout="responsive"
+                 alt="$AmpImageForTemplate.Title"></amp-img>
+    <% end_if %>
+    <div class="content-container">
+        <% if $AmpHeaderForTemplate %>
+            <h1>$AmpHeaderForTemplate</h1>
+        <% end_if %>
 
-    $AmpContent
+        $AmpContentForTemplate
+    </div>
 </article>

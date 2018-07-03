@@ -1,35 +1,30 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: rick
- * Date: 2015-12-15
- * Time: 12:25 PM
- */
 class AmpSiteTreeExtension extends SiteTreeExtension
 {
 
     private static $db = array(
-        'AmpContent'    =>'HTMLText'
+        'AmpHeader'     => 'Varchar',
+        'AmpContent'    => 'HTMLText'
     );
 
     private static $has_one = array(
-	    'AmpImage'  => 'Image'
+        'AmpImage'  => 'Image'
     );
 
-
     public function updateCMSFields(FieldList $fields) {
-        $children = array(
+        $children = [
+            new TextField("AmpHeader"),
             new HtmlEditorField("AmpContent", "AMP Content"),
             new UploadField("AmpImage", "AMP Image")
-        );
+        ];
 
         $fields->addFieldToTab("Root.Main", new ToggleCompositeField("AMPContentSection", "AMP Content Section", $children));
     }
 
     public function MetaTags(&$tags)
     {
-        if ($this->owner->AmpContent != "" && $this->owner->AmpImageID != "") {
+        if ($this->AmpContentForTemplate() != "") {
 
             if ($this->owner->class != "HomePage") {
                 $ampLink = $this->owner->AbsoluteLink() . "amp.html";
@@ -39,6 +34,62 @@ class AmpSiteTreeExtension extends SiteTreeExtension
 
             $tags .= "<link rel='amphtml' href='$ampLink' /> \n";
         }
+    }
 
+    /*
+     * Precedence:
+     * 1.) fields in Amp Content Drawer
+     * 2.) fields defined in the specific page type class's $amp_fields array
+     * 3.) fields defined in any page type inherited from that has $amp_fields set
+     * 4.) empty
+     */
+    public function AmpContentForTemplate() {
+        return $this->TextFieldForTemplate('AmpContent');
+
+    }
+
+    public function AmpHeaderForTemplate() {
+        return $this->TextFieldForTemplate('AmpHeader');
+    }
+
+    private function TextFieldForTemplate($field) {
+        $content = $this->owner->$field;
+
+        if (!empty($content)) {
+            return $content;
+        }
+
+        $fields = Config::inst()->get($this->owner->class,
+            'amp_fields',
+            Config::INHERITED
+        );
+
+        if ($fields != null && !empty($fields[$field])) {
+            $fieldName = $fields[$field];
+            return $this->owner->$fieldName;
+        }
+    }
+
+    /***
+     * @return DataObject|Image
+     */
+    public function AmpImageForTemplate() {
+        $imageID = $this->owner->AmpImageID;
+        if ($imageID) {
+            return Image::get()
+                ->byId($imageID);
+        }
+
+        $fields = Config::inst()->get($this->owner->class,
+            'amp_fields',
+            Config::INHERITED
+        );
+
+        if ($fields != null && !empty($fields['AmpImage'])) {
+            $fieldName = $fields['AmpImage'] . 'ID';
+            $imageID = $this->owner->$fieldName;
+            return Image::get()
+                ->byId($imageID);
+        }
     }
 }
