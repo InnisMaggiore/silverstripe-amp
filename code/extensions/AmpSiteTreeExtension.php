@@ -45,7 +45,6 @@ class AmpSiteTreeExtension extends SiteTreeExtension
      */
     public function AmpContentForTemplate() {
         return $this->TextFieldForTemplate('AmpContent');
-
     }
 
     public function AmpHeaderForTemplate() {
@@ -91,5 +90,13 @@ class AmpSiteTreeExtension extends SiteTreeExtension
             return Image::get()
                 ->byId($imageID);
         }
+    }
+
+    public function IsAmplified() {
+        return $this->AmpContentForTemplate() != "";
+    }
+
+    public function AmplifiedURL() {
+        return $this->owner->Link() . 'amp.html';
     }
 }

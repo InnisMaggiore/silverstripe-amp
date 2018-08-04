@@ -19,9 +19,7 @@ class AmpController extends Extension
 
     public function onAfterInit() {
         // if no amp content, redirect to original page
-        if($this->getOwner()->hasMethod('AmpContentForTemplate')
-            && $this->getOwner()->AmpContentForTemplate() == "") {
-
+        if($this->getOwner()->hasMethod('IsAmplified') && !$this->getOwner()->IsAmplified()) {
             $url = $this->getOwner()->request->getURL();
             if (strpos($url, 'amp') !== false) {
                 $this->getOwner()->redirect($this->getOwner()->AbsoluteLink());
@@ -49,5 +47,24 @@ class AmpController extends Extension
         $content = str_replace("<img", "<amp-img", $content);
 
         return $content;
+    }
+
+    public function NavIconURL() {
+        return $this->getIcon('hamburger.gif');
+    }
+
+    public function CloseNavIconURL() {
+        return $this->getIcon('close.png');
+    }
+
+    private function getIcon($filename) {
+        $docRoot = $_SERVER['DOCUMENT_ROOT'] . '/';
+        $themeDir = $this->getOwner()->themeDir() . '/images/';
+
+        if (file_exists($docRoot . $themeDir . $filename)) {
+            return $themeDir . $filename;
+        } else {
+            return '/' . AMP_DIR . '/images/' . $filename;
+        }
     }
 }
