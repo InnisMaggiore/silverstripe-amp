@@ -13,6 +13,10 @@ class AmpSiteTreeExtension extends SiteTreeExtension
     );
 
     public function updateCMSFields(FieldList $fields) {
+        if (!$this->IsAmpified()) {
+            return;
+        }
+
         $children = [
             new TextField("AmpHeader"),
             new HtmlEditorField("AmpContent", "AMP Content"),
@@ -92,11 +96,18 @@ class AmpSiteTreeExtension extends SiteTreeExtension
         }
     }
 
-    public function IsAmplified() {
-        return $this->AmpContentForTemplate() != "";
+    public function IsAmpified() {
+        $unsupportedClasses = Config::inst()->get('AmpSiteTreeExtension', 'unsupported');
+
+        $unsupported = array_search(
+            $this->getOwner()->className,
+            $unsupportedClasses
+        );
+
+        return $unsupported === false && $this->AmpContentForTemplate() != "";
     }
 
-    public function AmplifiedURL() {
+    public function AmpifiedURL() {
         return $this->owner->Link() . 'amp.html';
     }
 }

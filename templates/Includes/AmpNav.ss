@@ -13,22 +13,22 @@
     <nav>
         <ul>
             <% loop $Menu(1) %>
-                <li class="$LinkingMode">
-                    <% if $IsAmplified %>
-                        <a href="$AmplifiedURL" title="$Title.XML">$MenuTitle.XML</a>
+                <% if $IsAmpified %>
+                    <li class="$LinkingMode">
+                        <a href="$AmpifiedURL" title="$Title.XML">$MenuTitle.XML</a>
                         <% if $Children %>
                             <ul class="secondary">
                                 <% loop $Children %>
-                                    <% if $IsAmplified %>
+                                    <% if $IsAmpified %>
                                         <li class="<% if $isCurrent %>current<% else_if $isSection %>section<% end_if %>">
-                                            <a href="$AmplifiedURL">$MenuTitle</a>
+                                            <a href="$AmpifiedURL">$MenuTitle</a>
                                         </li>
                                     <% end_if %>
                                 <% end_loop %>
                             </ul>
                         <% end_if %>
-                    <% end_if %>
-                </li>
+                    </li>
+                <% end_if %>
             <% end_loop %>
         </ul>
     </nav>

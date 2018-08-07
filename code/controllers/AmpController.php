@@ -62,9 +62,16 @@ class AmpController extends Extension
         $themeDir = $this->getOwner()->themeDir() . '/images/';
 
         if (file_exists($docRoot . $themeDir . $filename)) {
-            return $themeDir . $filename;
+            return '/' . $themeDir . $filename;
         } else {
             return '/' . AMP_DIR . '/images/' . $filename;
         }
+    }
+
+    // Maybe make this set-able in the YAML config so it's not so tied
+    // to the way we manage GA account ids
+    public function getGAAccountID() {
+        $siteConfig = SiteConfig::current_site_config();
+        return $siteConfig->GAAccount;
     }
 }

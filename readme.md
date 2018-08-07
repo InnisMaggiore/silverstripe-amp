@@ -44,6 +44,9 @@ Note that the field on the left is used in the AMP template and the field on the
 
 The base Page type is `Amp.ss`, which can be overridden in your theme like any SilverStripe Template. Custom Page Types can be rendered using `ClassName_amp.ss` in your theme.
 
+## Documentation TODOs
+* How to override icons
+
 ## To Do
 This is an initial commit as proof of concept as such
 * Add Base Styling to Match Simple Theme
