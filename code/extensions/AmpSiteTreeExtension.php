@@ -69,7 +69,10 @@ class AmpSiteTreeExtension extends SiteTreeExtension
 
         if ($fields != null && !empty($fields[$field])) {
             $fieldName = $fields[$field];
-            return $this->owner->$fieldName;
+
+            # ehhh
+            return ShortcodeParser::get_active()
+                ->parse($this->owner->$fieldName);
         }
     }
 
@@ -97,14 +100,8 @@ class AmpSiteTreeExtension extends SiteTreeExtension
     }
 
     public function IsAmpified() {
-        $unsupportedClasses = Config::inst()->get('AmpSiteTreeExtension', 'unsupported');
-
-        $unsupported = array_search(
-            $this->getOwner()->className,
-            $unsupportedClasses
-        );
-
-        return $unsupported === false && $this->AmpContentForTemplate() != "";
+        return Injector::inst()->get('AmpUtil')
+            ->IsSupportedAmpClass($this->getOwner()->class) && $this->AmpContentForTemplate() != "";
     }
 
     public function AmpifiedURL() {

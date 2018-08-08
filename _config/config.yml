@@ -9,3 +9,7 @@ SiteTree:
 SiteConfig:
   extensions:
     - 'AmpGlobalConfig'
+
+Injector:
+  AmpUtil:
+    class: 'AmpUtil'

@@ -18,12 +18,23 @@ class AmpController extends Extension
     );
 
     public function onAfterInit() {
-        // if no amp content, redirect to original page
-        if($this->getOwner()->hasMethod('IsAmplified') && !$this->getOwner()->IsAmplified()) {
-            $url = $this->getOwner()->request->getURL();
-            if (strpos($url, 'amp') !== false) {
-                $this->getOwner()->redirect($this->getOwner()->AbsoluteLink());
-            }
+        if ($this->getOwner()->hasMethod('IsAmplified') && !$this->getOwner()->IsAmplified()) {
+            return $this->redirectToNonAmp();
+        }
+
+        $supported = Injector::inst()
+            ->get('AmpUtil')
+            ->IsSupportedAmpClass($this->getOwner()->class);
+
+        if (!$supported) {
+            return $this->redirectToNonAmp();
+        }
+    }
+
+    private function redirectToNonAmp() {
+        $url = $this->getOwner()->request->getURL();
+        if (strpos($url, 'amp') !== false) {
+            $this->getOwner()->redirect($this->getOwner()->AbsoluteLink());
         }
     }
 
@@ -32,7 +43,7 @@ class AmpController extends Extension
         Requirements::clear();
 
         $class = Controller::curr()->ClassName;
-        $page = $this->owner->renderWith(["$class"."_amp", "Amp"]);
+        $page = $this->getOwner()->renderWith(["$class"."_amp", "Amp"]);
 
         return $this->AmplfyHTML($page);
     }
