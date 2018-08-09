@@ -28,6 +28,10 @@ class AmpSiteTreeExtension extends SiteTreeExtension
 
     public function MetaTags(&$tags)
     {
+        if (!$this->IsAmpified()) {
+            return;
+        }
+
         if ($this->AmpContentForTemplate() != "") {
 
             if ($this->owner->class != "HomePage") {
