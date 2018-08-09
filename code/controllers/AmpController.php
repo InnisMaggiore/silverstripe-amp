@@ -41,10 +41,11 @@ class AmpController extends Extension
     public function amp()
     {
         Requirements::clear();
+        ShortcodeParser::get_active()->unregister('sitetree_link');
+        ShortcodeParser::get_active()->register('sitetree_link', ['AmpSiteTreeShortCodeParser', 'link_shortcode_handler']);
 
         $class = Controller::curr()->ClassName;
         $page = $this->getOwner()->renderWith(["$class"."_amp", "Amp"]);
-
         return $this->AmplfyHTML($page);
     }
 

@@ -2,7 +2,6 @@
 
 class AmpSiteTreeExtension extends SiteTreeExtension
 {
-
     private static $db = array(
         'AmpHeader'     => 'Varchar',
         'AmpContent'    => 'HTMLText'
@@ -74,7 +73,6 @@ class AmpSiteTreeExtension extends SiteTreeExtension
         if ($fields != null && !empty($fields[$field])) {
             $fieldName = $fields[$field];
 
-            # ehhh
             return ShortcodeParser::get_active()
                 ->parse($this->owner->$fieldName);
         }
@@ -105,7 +103,7 @@ class AmpSiteTreeExtension extends SiteTreeExtension
 
     public function IsAmpified() {
         return Injector::inst()->get('AmpUtil')
-            ->IsSupportedAmpClass($this->getOwner()->class) && $this->AmpContentForTemplate() != "";
+            ->IsSupportedAmpClass($this->getOwner()->class);
     }
 
     public function AmpifiedURL() {
