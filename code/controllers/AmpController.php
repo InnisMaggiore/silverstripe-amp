@@ -49,6 +49,7 @@ class AmpController extends Extension
 
         $class = Controller::curr()->ClassName;
         $page = $this->getOwner()->renderWith(["$class"."_amp", "Amp"]);
+        $page = $this->fixImageTags($page);
         return $this->AmplfyHTML($page);
     }
 
@@ -58,7 +59,7 @@ class AmpController extends Extension
             return false;
         }
 
-	$amp = new AMP();
+        $amp = new AMP();
 
         $amp->loadHtml($html, ['scope' => Scope::HTML_SCOPE]);
 
@@ -91,5 +92,20 @@ class AmpController extends Extension
     public function getGAAccountID() {
         $siteConfig = SiteConfig::current_site_config();
         return $siteConfig->GAAccount;
+    }
+
+    private function fixImageTags($html){
+        preg_match_all('/<img[^>]+>/i', $html, $images);
+        foreach ($images[0] as $image) {
+            preg_match("/src\s*=\s*\"(.+?)\"/i", $image, $matches);
+            $src = $matches[1];
+
+            if (strpos($src,"http") !== 0 && strpos($src,"/") !== 0) {
+                $newImage = str_replace($src, "/".$src, $image);
+                $html = str_replace($image, $newImage, $html);
+            }
+        }
+
+        return $html;
     }
 }
