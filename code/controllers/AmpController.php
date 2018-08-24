@@ -9,6 +9,9 @@
  * @package amp
  */
 
+use Lullabot\AMP\AMP;
+use Lullabot\AMP\Validate\Scope;
+
 class AmpController extends Extension
 {
     private static $allowed_actions = array('amp');
@@ -49,16 +52,19 @@ class AmpController extends Extension
         return $this->AmplfyHTML($page);
     }
 
-    public function AmplfyHTML($content)
+    public function AmplfyHTML($html)
     {
-        if (!$content) {
+        if (!$html) {
             return false;
         }
 
-        $content = preg_replace('/style=\\"[^\\"]*\\"/', '', $content);
-        $content = str_replace("<img", "<amp-img", $content);
+	$amp = new AMP();
 
-        return $content;
+        $amp->loadHtml($html, ['scope' => Scope::HTML_SCOPE]);
+
+        $amp_html = $amp->convertToAmpHtml();
+
+        return $amp_html;
     }
 
     public function NavIconURL() {

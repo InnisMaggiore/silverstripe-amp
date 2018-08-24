@@ -15,6 +15,7 @@
     },
     "require": {
         "silverstripe/cms": "3.7.*",
-        "silverstripe/framework": "3.7.*"
+        "silverstripe/framework": "3.7.*",
+	"lullabot/amp": "^1.0.0"
     }
 }
